@@ -8,8 +8,8 @@ namespace Services.DB;
 
 public class SqLiteService : ISqLiteService, IDisposable
 {
+    private readonly MySqlConnection _context;
     private bool _isDisposed;
-    private MySqlConnection _context;
 
     public SqLiteService(IGlobalSettings gs)
     {
@@ -22,7 +22,17 @@ public class SqLiteService : ISqLiteService, IDisposable
             Port = gs.Port
         };
 
-        _context= new MySqlConnection(builder.ConnectionString);
+        _context = new MySqlConnection(builder.ConnectionString);
+    }
+
+    public void Dispose()
+    {
+        if (!_isDisposed)
+            return;
+
+        _context.Dispose();
+
+        _isDisposed = true;
     }
 
     public void AppendFile(FileModel model)
@@ -30,23 +40,13 @@ public class SqLiteService : ISqLiteService, IDisposable
         _context.Open();
 
         using var command = _context.CreateCommand();
-        
+
         command.CommandText = @"INSERT INTO open_file_data (file_name, open_date) VALUES (@name, @date);";
         command.Parameters.AddWithValue("@name", model.FileName);
         command.Parameters.AddWithValue("@date", DateTime.Now);
-        
+
         var test = command.ExecuteNonQuery();
 
         _context.Close();
-    }
-
-    public void Dispose()
-    {
-        if (!_isDisposed)
-            return;
-        
-        _context.Dispose();
-
-        _isDisposed = true;
     }
 }

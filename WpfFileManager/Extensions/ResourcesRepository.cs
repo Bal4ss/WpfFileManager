@@ -4,7 +4,10 @@ using System.Windows.Media;
 
 namespace WpfFileManager.Extensions;
 
-public class ResourcesRepository
+/// <summary>
+///     Repository of resources
+/// </summary>
+public static class ResourcesRepository
 {
     public static GeometryGroup GetGeometryGroup(string name)
     {

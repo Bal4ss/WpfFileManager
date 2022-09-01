@@ -4,8 +4,22 @@ using System.Collections.Generic;
 
 namespace Extensions;
 
+/// <summary>
+///     Enumerable extension
+/// </summary>
 public static class EnumerableExtension
 {
+    /// <summary>
+    ///     Convert Enumerable to ConcurrentDictionary
+    /// </summary>
+    /// <param name="source">source</param>
+    /// <param name="keySelector">set key method</param>
+    /// <param name="elementSelector">set value method</param>
+    /// <typeparam name="TSource">source type</typeparam>
+    /// <typeparam name="TKey">key type</typeparam>
+    /// <typeparam name="TElement">value type</typeparam>
+    /// <returns>ConcurrentDictionary</returns>
+    /// <exception cref="Exception">argument checks</exception>
     public static ConcurrentDictionary<TKey, TElement> ToConcurrentDictionary<TSource, TKey, TElement>(
         this IEnumerable<TSource> source,
         Func<TSource, TKey> keySelector,

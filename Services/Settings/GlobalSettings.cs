@@ -5,22 +5,6 @@ namespace Services.Settings;
 
 public class GlobalSettings : IGlobalSettings
 {
-    private static class Fields
-    {
-        public const string Language = "language";
-        public const string AppSettings = "appSettings";
-        public const string Server = "server";
-        public const string Database = "database";
-        public const string UserId = "userId";
-        public const string Password = "password";
-        public const string Port = "port";
-    }
-
-    public GlobalSettings()
-    {
-        
-    }
-    
     public string Language
     {
         get => GetValue(Fields.Language) ?? "ru";
@@ -40,12 +24,26 @@ public class GlobalSettings : IGlobalSettings
     private void AttrSave(string attribute, string attrValue)
     {
         var oConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            
+
         oConfig.AppSettings.Settings[attribute].Value = attrValue;
         oConfig.Save(ConfigurationSaveMode.Full);
-            
+
         ConfigurationManager.RefreshSection(Fields.AppSettings);
     }
 
-    private string GetValue(string attributeName) => ConfigurationManager.AppSettings[attributeName];
+    private string GetValue(string attributeName)
+    {
+        return ConfigurationManager.AppSettings[attributeName];
+    }
+
+    private static class Fields
+    {
+        public const string Language = "language";
+        public const string AppSettings = "appSettings";
+        public const string Server = "server";
+        public const string Database = "database";
+        public const string UserId = "userId";
+        public const string Password = "password";
+        public const string Port = "port";
+    }
 }

@@ -3,6 +3,9 @@ using Entities.Enums;
 
 namespace Entities.Files;
 
+/// <summary>
+///     File model
+/// </summary>
 public readonly struct FileModel
 {
     public FileModel(string fullPath, FileTypes type)

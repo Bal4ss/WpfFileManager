@@ -6,15 +6,15 @@ using Extensions;
 namespace WpfFileManager.ViewModels;
 
 /// <summary>
-/// Base View Model Logic
+///     Base View Model Logic
 /// </summary>
 public class BaseViewModel : INotifyPropertyChanging, INotifyPropertyChanged
 {
-    public event PropertyChangingEventHandler PropertyChanging;
     public event PropertyChangedEventHandler PropertyChanged;
-    
+    public event PropertyChangingEventHandler PropertyChanging;
+
     /// <summary>
-    /// Changed trigger
+    ///     Changed trigger
     /// </summary>
     /// <param name="propertyName">field name</param>
     [NotifyPropertyChangedInvocator]
@@ -24,7 +24,7 @@ public class BaseViewModel : INotifyPropertyChanging, INotifyPropertyChanged
     }
 
     /// <summary>
-    /// Changing trigger
+    ///     Changing trigger
     /// </summary>
     /// <param name="propertyName">field name</param>
     [NotifyPropertyChangingInvocator]
@@ -32,9 +32,9 @@ public class BaseViewModel : INotifyPropertyChanging, INotifyPropertyChanged
     {
         PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(propertyName));
     }
-    
+
     /// <summary>
-    /// Set property value 
+    ///     Set property value
     /// </summary>
     /// <param name="storage">target object</param>
     /// <param name="value">new value</param>

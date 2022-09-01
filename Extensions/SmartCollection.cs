@@ -18,12 +18,16 @@ public class SmartCollection<T> : ObservableCollection<T>
         if (!_suspendCollectionChangeNotification)
             base.OnCollectionChanged(e);
     }
-        
+
     private void SuspendCollectionChangeNotification()
-        => _suspendCollectionChangeNotification = true;
+    {
+        _suspendCollectionChangeNotification = true;
+    }
 
     private void ResumeCollectionChangeNotification()
-        => _suspendCollectionChangeNotification = false;
+    {
+        _suspendCollectionChangeNotification = false;
+    }
 
     public void AddRange(IEnumerable<T> items)
     {

@@ -4,7 +4,7 @@ using Entities.Files;
 namespace Services.Core.Actions;
 
 /// <summary>
-/// Actions service
+///     Actions service
 /// </summary>
 public interface IActionService
 {

@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Media;
 using Entities.Enums;
@@ -14,19 +13,13 @@ namespace WpfFileManager.ViewModels.Files;
 
 public class FileVm : BaseViewModel, IFileVm
 {
-    private static class Fields
-    {
-        public const string FolderIcon = "FolderIcon";
-        public const string ProgramIcon = "ProgramIcon";
-    }
-    
     private readonly IActionService _actionService;
-    private readonly ISqLiteService _sqLiteService;
 
     private readonly FileModel _model;
+    private readonly ISqLiteService _sqLiteService;
+    private ICommand _doubleClickAction;
 
     private ICommand _singleClickAction;
-    private ICommand _doubleClickAction;
 
     public FileVm(IActionService actionService, ISqLiteService sqLiteService, FileModel model)
     {
@@ -35,7 +28,7 @@ public class FileVm : BaseViewModel, IFileVm
 
         _model = model;
 
-        Icon = ResourcesRepository.GetGeometryGroup(_model.Type == FileTypes.Folder 
+        Icon = ResourcesRepository.GetGeometryGroup(_model.Type == FileTypes.Folder
             ? Fields.FolderIcon
             : Fields.ProgramIcon);
     }
@@ -57,14 +50,20 @@ public class FileVm : BaseViewModel, IFileVm
             _actionService.UpdateMainSection?.Invoke(_model.FullPath);
             return;
         }
-        
+
         var process = new Process
         {
             StartInfo = new ProcessStartInfo(_model.FullPath),
             EnableRaisingEvents = true
         };
         process.Start();
-        
+
         _sqLiteService.AppendFile(_model);
+    }
+
+    private static class Fields
+    {
+        public const string FolderIcon = "FolderIcon";
+        public const string ProgramIcon = "ProgramIcon";
     }
 }

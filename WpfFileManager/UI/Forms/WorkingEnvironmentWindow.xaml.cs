@@ -7,11 +7,11 @@ using WpfFileManager.ViewModels.Core.WorkingEnvironments;
 namespace WpfFileManager.UI.Forms;
 
 /// <summary>
-/// Main window
+///     Main window
 /// </summary>
 public partial class WorkingEnvironmentWindow : BaseWindow<IWorkingEnvironmentVm>
 {
-    public WorkingEnvironmentWindow() : base()
+    public WorkingEnvironmentWindow()
     {
         InitializeComponent();
 

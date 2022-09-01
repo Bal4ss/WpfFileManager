@@ -14,7 +14,7 @@ namespace Services.Languages;
 public class LanguageService : ILanguageService
 {
     private readonly IGlobalSettings _gs;
-    
+
     private readonly ConcurrentDictionary<Guid, TextModel> _textModels;
 
     public LanguageService(IPathManagerService pathManagerService, IGlobalSettings gs, IJsonService jsonService)
@@ -27,7 +27,7 @@ public class LanguageService : ILanguageService
             textModels = new List<TextModel>(DefaultText());
             jsonService.WriteJsonFile(textModels, pathManagerService.TextJsonFile);
         }
-        
+
         _textModels = textModels.ToConcurrentDictionary(k => k.Id, v => v);
     }
 

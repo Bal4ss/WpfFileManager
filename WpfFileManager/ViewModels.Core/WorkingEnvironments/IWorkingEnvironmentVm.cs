@@ -4,6 +4,9 @@ using WpfFileManager.ViewModels.Core.Files;
 
 namespace WpfFileManager.ViewModels.Core.WorkingEnvironments;
 
+/// <summary>
+///     Working environment view model
+/// </summary>
 public interface IWorkingEnvironmentVm : IWindowViewModel
 {
     ICommand DoubleClickAction { get; }

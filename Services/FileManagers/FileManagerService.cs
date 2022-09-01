@@ -27,14 +27,8 @@ public class FileManagerService : IFileManagerService
             yield break;
         }
 
-        foreach (var folder in folders)
-        {
-            yield return new FileModel(Path.Combine(path, folder), FileTypes.Folder);
-        }
+        foreach (var folder in folders) yield return new FileModel(Path.Combine(path, folder), FileTypes.Folder);
 
-        foreach (var file in files)
-        {
-            yield return new FileModel(Path.Combine(path, file), FileTypes.Program);
-        }
+        foreach (var file in files) yield return new FileModel(Path.Combine(path, file), FileTypes.Program);
     }
 }

@@ -15,17 +15,17 @@ namespace WpfFileManager.ViewModels.WorkingEnvironments;
 
 public sealed class WorkingEnvironmentVm : BaseWindowViewModel, IWorkingEnvironmentVm
 {
+    private readonly IActionService _actionService;
     private readonly IFileManagerService _fileManagerService;
     private readonly IPathManagerService _pathManagerService;
-    private readonly IActionService _actionService;
-
-    private string _search;
-    private string _pathValue;
-    private SmartCollection<IFileVm> _files;
 
     private ICommand _doubleClickAction;
+    private SmartCollection<IFileVm> _files;
+    private string _pathValue;
+
+    private string _search;
     private ICommand _selectPathAction;
-    
+
     public WorkingEnvironmentVm(IFileManagerService fileManagerService, IPathManagerService pathManagerService,
         IActionService actionService)
     {
@@ -53,7 +53,7 @@ public sealed class WorkingEnvironmentVm : BaseWindowViewModel, IWorkingEnvironm
                 return new ReadOnlyObservableCollection<IFileVm>(_files);
 
             var filesSearchResult = new SmartCollection<IFileVm>();
-            
+
             var files = _files.Where(c
                 => c.FileName.IndexOf(_search, StringComparison.InvariantCultureIgnoreCase) != -1).ToList();
             if (files?.Any() == true)
@@ -68,7 +68,7 @@ public sealed class WorkingEnvironmentVm : BaseWindowViewModel, IWorkingEnvironm
         get => _search;
         set
         {
-            SetProperty(ref _search, value, nameof(Search));
+            SetProperty(ref _search, value);
             RaisePropertyChanged(nameof(Files));
         }
     }
@@ -76,15 +76,12 @@ public sealed class WorkingEnvironmentVm : BaseWindowViewModel, IWorkingEnvironm
     public string PathValue
     {
         get => _pathValue;
-        set => SetProperty(ref _pathValue, value, nameof(PathValue));
+        set => SetProperty(ref _pathValue, value);
     }
 
     private void UpdateMainSection(string path = null)
     {
-        if (string.IsNullOrEmpty(path))
-        {
-            path = _pathManagerService.DefaultPath;
-        }
+        if (string.IsNullOrEmpty(path)) path = _pathManagerService.DefaultPath;
 
         var files = _fileManagerService.GetFolderData(path)
             .OrderBy(c => c.Type).ThenBy(c => c.FileName).ToList();
@@ -93,7 +90,7 @@ public sealed class WorkingEnvironmentVm : BaseWindowViewModel, IWorkingEnvironm
         if (files.Any())
             _files.AddRange(files.Select(c => AutoFac.Default.Container.Resolve<IFileVm>(
                 new TypedParameter(c.GetType(), c))));
-            
+
         PathValue = path;
 
         RaisePropertyChanged(nameof(Files));

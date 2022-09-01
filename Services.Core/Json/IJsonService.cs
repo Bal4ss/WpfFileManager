@@ -1,5 +1,8 @@
 ﻿namespace Services.Core.Json;
 
+/// <summary>
+///     Json service
+/// </summary>
 public interface IJsonService
 {
     T GetJsonFromFile<T>(string path);

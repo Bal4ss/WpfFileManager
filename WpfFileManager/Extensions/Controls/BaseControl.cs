@@ -4,9 +4,13 @@ using WpfFileManager.ViewModels.Core;
 
 namespace WpfFileManager.Extensions.Controls;
 
+/// <summary>
+///     Base control logic
+/// </summary>
+/// <typeparam name="T">control view model</typeparam>
 public abstract class BaseControl<T> : UserControl where T : IControlViewModel
 {
-    protected BaseControl() : base()
+    protected BaseControl()
     {
         ViewModel = AutoFac.Default.Container.Resolve<T>();
     }

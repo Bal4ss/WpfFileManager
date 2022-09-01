@@ -14,10 +14,10 @@ namespace WpfFileManager.ViewModels.SideSections;
 
 public class SideSectionVm : BaseViewModel, ISideSectionVm
 {
+    private static readonly string[] SizeSuffixes = { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
     private readonly ILanguageService _languageService;
 
     private SmartCollection<AttributeModel> _attributes = new();
-    private static readonly string[] SizeSuffixes = { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
 
     public SideSectionVm(ILanguageService languageService, IActionService actionService)
     {
@@ -45,7 +45,7 @@ public class SideSectionVm : BaseViewModel, ISideSectionVm
             _attributes.Add(new AttributeModel
             {
                 Name = _languageService.Text(new Guid("E652A05D-9309-42BD-BCDB-1D8AAA3655A6")),
-                Value = "",
+                Value = ""
             });
         }
 
@@ -55,38 +55,38 @@ public class SideSectionVm : BaseViewModel, ISideSectionVm
     private void UpdateFileAttributes(string path)
     {
         var fileInfo = new FileInfo(path);
-        
+
         _attributes.Add(new AttributeModel
         {
             Name = _languageService.Text(new Guid("ED0A0A03-F741-43CC-99D4-2B683C6836AA")),
-            Value = SizeSuffix(fileInfo.Length),
+            Value = SizeSuffix(fileInfo.Length)
         });
-        
+
         _attributes.Add(new AttributeModel
         {
             Name = _languageService.Text(new Guid("F0568302-B2C4-418A-97BD-A79FE38EC2F4")),
-            Value = $"{fileInfo.CreationTime:dd.MM.yyyy HH:mm:ss}",
+            Value = $"{fileInfo.CreationTime:dd.MM.yyyy HH:mm:ss}"
         });
     }
 
     private void UpdateFolderAttributes(string path)
     {
         var folderInfo = new DirectoryInfo(path);
-        
+
         _attributes.Add(new AttributeModel
         {
             Name = _languageService.Text(new Guid("B58543B2-88F2-4725-94D7-D942C9D695E0")),
-            Value = SizeSuffix(folderInfo.GetFiles().Select(c => c.Length).Sum()),
+            Value = SizeSuffix(folderInfo.GetFiles().Select(c => c.Length).Sum())
         });
-        
+
         _attributes.Add(new AttributeModel
         {
             Name = _languageService.Text(new Guid("552B6C4D-8D19-47C4-BD1A-7F6519874C94")),
-            Value = $"{folderInfo.GetFiles().Length + folderInfo.GetDirectories().Length}",
+            Value = $"{folderInfo.GetFiles().Length + folderInfo.GetDirectories().Length}"
         });
     }
 
-    static string SizeSuffix(long value, int decimalPlaces = 1)
+    private static string SizeSuffix(long value, int decimalPlaces = 1)
     {
         if (value < 0)
             return $"-{SizeSuffix(-value, decimalPlaces)}";

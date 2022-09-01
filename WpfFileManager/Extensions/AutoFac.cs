@@ -23,7 +23,7 @@ using WpfFileManager.ViewModels.WorkingEnvironments;
 namespace WpfFileManager.Extensions;
 
 /// <summary>
-/// DI
+///     DI
 /// </summary>
 public class AutoFac
 {
@@ -34,19 +34,19 @@ public class AutoFac
         builder.RegisterType<WorkingEnvironmentVm>().As<IWorkingEnvironmentVm>();
         builder.RegisterType<SideSectionVm>().As<ISideSectionVm>();
         builder.RegisterType<FileVm>().As<IFileVm>();
-        
+
         builder.RegisterType<FileManagerService>().As<IFileManagerService>();
         builder.RegisterType<PathManagerService>().As<IPathManagerService>();
         builder.RegisterType<GlobalSettings>().As<IGlobalSettings>();
         builder.RegisterType<JsonService>().As<IJsonService>();
-        
+
         builder.RegisterType<ActionService>().As<IActionService>().SingleInstance();
         builder.RegisterType<LanguageService>().As<ILanguageService>().SingleInstance();
         builder.RegisterType<SqLiteService>().As<ISqLiteService>().SingleInstance();
 
         Container = builder.Build();
     }
-    
+
     public static AutoFac Default { get; } = new();
 
     public IContainer Container { get; }

@@ -1,7 +1,7 @@
 ﻿namespace WpfFileManager.ViewModels.Core;
 
 /// <summary>
-/// Base window view model logic
+///     Base window view model logic
 /// </summary>
 public interface IWindowViewModel
 {

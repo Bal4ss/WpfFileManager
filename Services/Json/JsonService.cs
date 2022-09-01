@@ -7,20 +7,15 @@ namespace Services.Json;
 
 public class JsonService : IJsonService
 {
-    public JsonService()
-    {
-        
-    }
-
     public T GetJsonFromFile<T>(string path)
     {
         if (!File.Exists(path))
             return default;
-        
+
         try
         {
             var json = File.ReadAllText(path);
-            
+
             return JsonConvert.DeserializeObject<T>(json);
         }
         catch (Exception e)

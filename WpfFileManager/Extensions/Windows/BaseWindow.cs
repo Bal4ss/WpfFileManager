@@ -5,12 +5,12 @@ using WpfFileManager.ViewModels.Core;
 namespace WpfFileManager.Extensions.Windows;
 
 /// <summary>
-/// Base window logic
+///     Base window logic
 /// </summary>
 /// <typeparam name="T">window view model</typeparam>
 public abstract class BaseWindow<T> : Window where T : IWindowViewModel
 {
-    protected BaseWindow() : base()
+    protected BaseWindow()
     {
         ViewModel = AutoFac.Default.Container.Resolve<T>();
     }

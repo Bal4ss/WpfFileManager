@@ -3,6 +3,9 @@ using System.Collections.Concurrent;
 
 namespace Entities.Texts;
 
+/// <summary>
+///     Xaml util text model
+/// </summary>
 public struct TextModel
 {
     public Guid Id { get; set; }

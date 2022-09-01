@@ -3,6 +3,9 @@ using System.Windows.Media;
 
 namespace WpfFileManager.ViewModels.Core.Files;
 
+/// <summary>
+///     File view model
+/// </summary>
 public interface IFileVm : IControlViewModel
 {
     ICommand SingleClickAction { get; }
