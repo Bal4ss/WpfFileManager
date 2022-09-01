@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows.Markup;
 using Extensions;
 
-namespace FolderReader.ViewModels;
+namespace WpfFileManager.ViewModels;
 
 /// <summary>
 /// Base View Model Logic

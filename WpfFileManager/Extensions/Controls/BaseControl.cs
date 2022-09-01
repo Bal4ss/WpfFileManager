@@ -1,10 +1,10 @@
 ﻿using System.Windows.Controls;
 using Autofac;
-using FolderReader.ViewModels.Core;
+using WpfFileManager.ViewModels.Core;
 
-namespace FolderReader.Extensions.Controls;
+namespace WpfFileManager.Extensions.Controls;
 
-public abstract class BaseControl<T> : Control where T : IControlViewModel
+public abstract class BaseControl<T> : UserControl where T : IControlViewModel
 {
     protected BaseControl() : base()
     {
@@ -14,6 +14,6 @@ public abstract class BaseControl<T> : Control where T : IControlViewModel
     protected T ViewModel
     {
         get => (T)DataContext;
-        private init => DataContext = value;
+        private set => DataContext = value;
     }
 }

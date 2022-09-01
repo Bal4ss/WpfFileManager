@@ -1,20 +1,17 @@
-﻿using Entities.Enums;
+﻿using System.IO;
+using Entities.Enums;
 
 namespace Entities.Files;
 
 public readonly struct FileModel
 {
-    private readonly string _fullPath;
-    
-    public FileModel(string fullPath)
+    public FileModel(string fullPath, FileTypes type)
     {
-        _fullPath = fullPath;
+        FullPath = fullPath;
+        Type = type;
     }
 
-    public string FileName => Path.GetFileName(_fullPath);
-    public string FullPath => _fullPath;
-
-    public FileTypes Type => File.GetAttributes(_fullPath) == FileAttributes.Directory
-        ? FileTypes.Folder
-        : FileTypes.Program;
+    public string FileName => Path.GetFileName(FullPath);
+    public string FullPath { get; }
+    public FileTypes Type { get; }
 }

@@ -1,7 +1,11 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
 
 namespace Extensions;
 
+/// <summary>
+/// Custom command logic
+/// </summary>
 public class RelayCommand : ICommand
 {
     private readonly Predicate<object> _canExecute;

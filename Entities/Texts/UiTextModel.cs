@@ -1,6 +1,7 @@
 ﻿namespace Entities.Texts;
 
-public class UiTextModel
+public struct UiTextModel
 {
-    
+    public string EnValue { get; set; }
+    public string RuValue { get; set; }
 }

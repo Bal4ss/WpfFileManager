@@ -1,14 +1,16 @@
 ﻿using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Media;
 using Entities.Enums;
 using Entities.Files;
 using Extensions;
-using FolderReader.Extensions;
-using FolderReader.ViewModels.Core.Files;
 using Services.Core.Actions;
+using Services.Core.DB;
+using WpfFileManager.Extensions;
+using WpfFileManager.ViewModels.Core.Files;
 
-namespace FolderReader.ViewModels.Files;
+namespace WpfFileManager.ViewModels.Files;
 
 public class FileVm : BaseViewModel, IFileVm
 {
@@ -19,26 +21,30 @@ public class FileVm : BaseViewModel, IFileVm
     }
     
     private readonly IActionService _actionService;
-    
+    private readonly ISqLiteService _sqLiteService;
+
     private readonly FileModel _model;
 
-    public FileVm(IActionService actionService, FileModel model)
+    private ICommand _singleClickAction;
+    private ICommand _doubleClickAction;
+
+    public FileVm(IActionService actionService, ISqLiteService sqLiteService, FileModel model)
     {
         _actionService = actionService;
-        
+        _sqLiteService = sqLiteService;
+
         _model = model;
 
         Icon = ResourcesRepository.GetGeometryGroup(_model.Type == FileTypes.Folder 
             ? Fields.FolderIcon
             : Fields.ProgramIcon);
-
-        SingleClickAction = new RelayCommand(c => _actionService.UpdateSideSection?.Invoke(_model));
-        DoubleClickAction = new RelayCommand(c => DoubleClickEvent());
     }
 
-    public ICommand SingleClickAction { get; }
+    public ICommand SingleClickAction
+        => _singleClickAction ??= new RelayCommand(c => _actionService.UpdateSideSection?.Invoke(_model));
 
-    public ICommand DoubleClickAction { get; }
+    public ICommand DoubleClickAction
+        => _doubleClickAction ??= new RelayCommand(c => DoubleClickEvent());
 
     public GeometryGroup Icon { get; }
 
@@ -48,7 +54,8 @@ public class FileVm : BaseViewModel, IFileVm
     {
         if (_model.Type == FileTypes.Folder)
         {
-            _actionService.UpdateMainSection?.Invoke(_model.FullPath);   
+            _actionService.UpdateMainSection?.Invoke(_model.FullPath);
+            return;
         }
         
         var process = new Process
@@ -57,5 +64,7 @@ public class FileVm : BaseViewModel, IFileVm
             EnableRaisingEvents = true
         };
         process.Start();
+        
+        _sqLiteService.AppendFile(_model);
     }
 }

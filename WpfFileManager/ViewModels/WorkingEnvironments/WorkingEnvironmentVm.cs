@@ -1,40 +1,76 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
 using Autofac;
 using Extensions;
-using FolderReader.Extensions;
-using FolderReader.ViewModels.Core.Files;
-using FolderReader.ViewModels.Core.WorkingEnvironments;
 using Services.Core.Actions;
 using Services.Core.FileManagers;
+using Services.Core.PathManagers;
+using WpfFileManager.Extensions;
+using WpfFileManager.ViewModels.Core.Files;
+using WpfFileManager.ViewModels.Core.WorkingEnvironments;
 
-namespace FolderReader.ViewModels.WorkingEnvironments;
+namespace WpfFileManager.ViewModels.WorkingEnvironments;
 
 public sealed class WorkingEnvironmentVm : BaseWindowViewModel, IWorkingEnvironmentVm
 {
     private readonly IFileManagerService _fileManagerService;
+    private readonly IPathManagerService _pathManagerService;
+    private readonly IActionService _actionService;
 
     private string _search;
     private string _pathValue;
     private SmartCollection<IFileVm> _files;
 
-    private const string TestPath = @"E:\Downloads";
+    private ICommand _doubleClickAction;
+    private ICommand _selectPathAction;
     
-    public WorkingEnvironmentVm(IFileManagerService fileManagerService, IActionService actionService)
+    public WorkingEnvironmentVm(IFileManagerService fileManagerService, IPathManagerService pathManagerService,
+        IActionService actionService)
     {
         _fileManagerService = fileManagerService;
+        _pathManagerService = pathManagerService;
+        _actionService = actionService;
 
-        actionService.UpdateMainSection += UpdateMainSection;
+        _actionService.UpdateMainSection += UpdateMainSection;
 
-        UpdateMainSection();
+        _actionService.UpdateMainSection?.Invoke(null);
     }
 
-    public ReadOnlyObservableCollection<IFileVm> Files => new(_files);
+    public ICommand DoubleClickAction
+        => _doubleClickAction ??= new RelayCommand(c
+            => _actionService.UpdateMainSection?.Invoke(_pathManagerService.CurrentPathFolder));
+
+    public ICommand SelectPathAction
+        => _selectPathAction ??= new RelayCommand(c => _actionService.UpdateMainSection?.Invoke(PathValue));
+
+    public ReadOnlyObservableCollection<IFileVm> Files
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(_search))
+                return new ReadOnlyObservableCollection<IFileVm>(_files);
+
+            var filesSearchResult = new SmartCollection<IFileVm>();
+            
+            var files = _files.Where(c
+                => c.FileName.IndexOf(_search, StringComparison.InvariantCultureIgnoreCase) != -1).ToList();
+            if (files?.Any() == true)
+                filesSearchResult.AddRange(files);
+
+            return new ReadOnlyObservableCollection<IFileVm>(filesSearchResult);
+        }
+    }
 
     public string Search
     {
         get => _search;
-        set => SetProperty(ref _search, value, nameof(Search));
+        set
+        {
+            SetProperty(ref _search, value, nameof(Search));
+            RaisePropertyChanged(nameof(Files));
+        }
     }
 
     public string PathValue
@@ -47,8 +83,7 @@ public sealed class WorkingEnvironmentVm : BaseWindowViewModel, IWorkingEnvironm
     {
         if (string.IsNullOrEmpty(path))
         {
-            //TODO
-            path = TestPath;
+            path = _pathManagerService.DefaultPath;
         }
 
         var files = _fileManagerService.GetFolderData(path)
@@ -58,5 +93,9 @@ public sealed class WorkingEnvironmentVm : BaseWindowViewModel, IWorkingEnvironm
         if (files.Any())
             _files.AddRange(files.Select(c => AutoFac.Default.Container.Resolve<IFileVm>(
                 new TypedParameter(c.GetType(), c))));
+            
+        PathValue = path;
+
+        RaisePropertyChanged(nameof(Files));
     }
 }

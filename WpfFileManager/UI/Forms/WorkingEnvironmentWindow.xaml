@@ -1,15 +1,19 @@
 ﻿<windows:BaseWindow
     Height="450"
-    Title="WorkingEnvironmentWindow"
+    MinHeight="450"
+    MinWidth="800"
+    Title="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
     Width="800"
     mc:Ignorable="d"
-    x:Class="FolderReader.UI.Forms.WorkingEnvironmentWindow"
+    x:Class="WpfFileManager.UI.Forms.WorkingEnvironmentWindow"
     x:TypeArguments="workingEnvironments:IWorkingEnvironmentVm"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:controls="clr-namespace:WpfFileManager.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:extensions="clr-namespace:WpfFileManager.Extensions"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:windows="clr-namespace:FolderReader.Extensions.Windows"
-    xmlns:workingEnvironments="clr-namespace:FolderReader.ViewModels.Core.WorkingEnvironments"
+    xmlns:windows="clr-namespace:WpfFileManager.Extensions.Windows"
+    xmlns:workingEnvironments="clr-namespace:WpfFileManager.ViewModels.Core.WorkingEnvironments"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -17,38 +21,87 @@
             <ColumnDefinition Width="350" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="80" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-
-        <ScrollViewer Grid.Column="0" Grid.Row="1">
-            <ItemsControl ItemsSource="{Binding Files}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel
-                            Background="Transparent"
-                            Margin="5"
-                            Orientation="Horizontal">
-                            <Path
-                                Data="{Binding Icon, UpdateSourceTrigger=PropertyChanged}"
-                                Fill="{StaticResource SelectedColour}"
-                                Height="24"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Width="24" />
-                            <TextBlock
-                                FontSize="16"
-                                Foreground="{StaticResource TextColor}"
-                                Text="{Binding FileName}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+        <StackPanel Grid.Column="0" Grid.Row="0">
+            <TextBox Style="{StaticResource PlaceHolder}" Text="{Binding PathValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <TextBox.InputBindings>
+                    <KeyBinding Command="{Binding SelectPathAction}" Key="Enter" />
+                </TextBox.InputBindings>
+            </TextBox>
+        </StackPanel>
+        <!--  Поиск  -->
+        <StackPanel Grid.Column="1" Grid.Row="0">
+            <TextBox
+                Margin="10,0"
+                Style="{StaticResource PlaceHolder}"
+                Tag="{extensions:Text 'CBBFD588-2B18-4224-93C0-4B869FBD9E48'}"
+                Text="{Binding Search, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
+        <ScrollViewer
+            Grid.Column="0"
+            Grid.Row="1"
+            Name="MainSectionScroll">
+            <StackPanel>
+                <StackPanel
+                    Background="Transparent"
+                    Cursor="Hand"
+                    Margin="5"
+                    Orientation="Horizontal">
+                    <Path
+                        Data="{StaticResource FolderIcon}"
+                        Fill="{StaticResource SelectedColour}"
+                        Height="24"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Width="24" />
+                    <TextBlock
+                        FontSize="16"
+                        Foreground="{StaticResource TextColour}"
+                        Text="..."
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap" />
+                    <StackPanel.InputBindings>
+                        <MouseBinding Command="{Binding DoubleClickAction}" MouseAction="LeftDoubleClick" />
+                    </StackPanel.InputBindings>
+                </StackPanel>
+                <ItemsControl ItemsSource="{Binding Files}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Margin="10,0" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel
+                                Background="Transparent"
+                                Cursor="Hand"
+                                Margin="5"
+                                Orientation="Horizontal">
+                                <Path
+                                    Data="{Binding Icon, UpdateSourceTrigger=PropertyChanged}"
+                                    Fill="{StaticResource SelectedColour}"
+                                    Height="24"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Width="24" />
+                                <TextBlock
+                                    FontSize="16"
+                                    Foreground="{StaticResource TextColour}"
+                                    Text="{Binding FileName}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="Wrap" />
+                                <StackPanel.InputBindings>
+                                    <MouseBinding Command="{Binding SingleClickAction}" MouseAction="LeftClick" />
+                                    <MouseBinding Command="{Binding DoubleClickAction}" MouseAction="LeftDoubleClick" />
+                                </StackPanel.InputBindings>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
         </ScrollViewer>
+        <controls:SideSectionControl Grid.Column="1" Grid.Row="1" />
     </Grid>
 </windows:BaseWindow>

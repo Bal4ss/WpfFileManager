@@ -1,9 +1,8 @@
 ﻿using System.Windows;
-using System.Windows.Markup;
 using Autofac;
-using FolderReader.ViewModels.Core;
+using WpfFileManager.ViewModels.Core;
 
-namespace FolderReader.Extensions.Windows;
+namespace WpfFileManager.Extensions.Windows;
 
 /// <summary>
 /// Base window logic
@@ -24,6 +23,6 @@ public abstract class BaseWindow<T> : Window where T : IWindowViewModel
     protected T ViewModel
     {
         get => (T)DataContext;
-        private init => DataContext = value;
+        private set => DataContext = value;
     }
 }

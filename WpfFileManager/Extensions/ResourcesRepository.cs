@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Media;
 
-namespace FolderReader.Extensions;
+namespace WpfFileManager.Extensions;
 
 public class ResourcesRepository
 {

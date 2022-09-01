@@ -1,6 +1,8 @@
-﻿namespace Services.Core.DB;
+﻿using Entities.Files;
 
-public class ISqLiteService
+namespace Services.Core.DB;
+
+public interface ISqLiteService
 {
-    
+    void AppendFile(FileModel model);
 }

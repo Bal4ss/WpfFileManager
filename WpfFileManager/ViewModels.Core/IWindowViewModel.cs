@@ -1,7 +1,7 @@
-﻿namespace FolderReader.ViewModels.Core;
+﻿namespace WpfFileManager.ViewModels.Core;
 
 /// <summary>
-/// Base Window View Model Logic
+/// Base window view model logic
 /// </summary>
 public interface IWindowViewModel
 {

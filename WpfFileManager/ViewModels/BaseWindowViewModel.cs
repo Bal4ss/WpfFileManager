@@ -1,6 +1,6 @@
-﻿using FolderReader.ViewModels.Core;
+﻿using WpfFileManager.ViewModels.Core;
 
-namespace FolderReader.ViewModels;
+namespace WpfFileManager.ViewModels;
 
 public class BaseWindowViewModel : BaseViewModel, IWindowViewModel
 {

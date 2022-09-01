@@ -1,8 +1,9 @@
-﻿using System.Windows.Controls;
+﻿using WpfFileManager.Extensions.Controls;
+using WpfFileManager.ViewModels.Core.SideSections;
 
 namespace WpfFileManager.UI.Controls;
 
-public partial class SideSectionControl : UserControl
+public partial class SideSectionControl : BaseControl<ISideSectionVm>
 {
     public SideSectionControl()
     {

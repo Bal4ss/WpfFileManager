@@ -1,7 +1,7 @@
 ﻿using System.Windows.Input;
 using System.Windows.Media;
 
-namespace FolderReader.ViewModels.Core.Files;
+namespace WpfFileManager.ViewModels.Core.Files;
 
 public interface IFileVm : IControlViewModel
 {

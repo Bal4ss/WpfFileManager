@@ -1,6 +1,8 @@
-﻿namespace Services.Core.Languages;
+﻿using System;
 
-public class ILanguageService
+namespace Services.Core.Languages;
+
+public interface ILanguageService
 {
-    
+    string Text(Guid id);
 }

@@ -1,7 +1,7 @@
-﻿namespace FolderReader.ViewModels.Core;
+﻿namespace WpfFileManager.ViewModels.Core;
 
 /// <summary>
-/// Base Control View Model
+/// Base control view model logic
 /// </summary>
 public interface IControlViewModel
 {
