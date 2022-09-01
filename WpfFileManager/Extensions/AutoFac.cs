@@ -42,7 +42,7 @@ public class AutoFac
 
         builder.RegisterType<ActionService>().As<IActionService>().SingleInstance();
         builder.RegisterType<LanguageService>().As<ILanguageService>().SingleInstance();
-        builder.RegisterType<SqLiteService>().As<ISqLiteService>().SingleInstance();
+        builder.RegisterType<MySqlService>().As<IMySqlService>().SingleInstance();
 
         Container = builder.Build();
     }

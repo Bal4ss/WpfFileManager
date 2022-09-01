@@ -6,12 +6,12 @@ using Services.Core.Settings;
 
 namespace Services.DB;
 
-public class SqLiteService : ISqLiteService, IDisposable
+public class MySqlService : IMySqlService, IDisposable
 {
     private readonly MySqlConnection _context;
     private bool _isDisposed;
 
-    public SqLiteService(IGlobalSettings gs)
+    public MySqlService(IGlobalSettings gs)
     {
         var builder = new MySqlConnectionStringBuilder
         {

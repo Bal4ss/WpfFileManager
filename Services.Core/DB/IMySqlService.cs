@@ -5,7 +5,7 @@ namespace Services.Core.DB;
 /// <summary>
 ///     Sql logic service
 /// </summary>
-public interface ISqLiteService
+public interface IMySqlService
 {
     /// <summary>
     ///     Append new file to data

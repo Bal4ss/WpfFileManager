@@ -16,15 +16,15 @@ public class FileVm : BaseViewModel, IFileVm
     private readonly IActionService _actionService;
 
     private readonly FileModel _model;
-    private readonly ISqLiteService _sqLiteService;
+    private readonly IMySqlService _mySqlService;
     private ICommand _doubleClickAction;
 
     private ICommand _singleClickAction;
 
-    public FileVm(IActionService actionService, ISqLiteService sqLiteService, FileModel model)
+    public FileVm(IActionService actionService, IMySqlService mySqlService, FileModel model)
     {
         _actionService = actionService;
-        _sqLiteService = sqLiteService;
+        _mySqlService = mySqlService;
 
         _model = model;
 
@@ -58,7 +58,7 @@ public class FileVm : BaseViewModel, IFileVm
         };
         process.Start();
 
-        _sqLiteService.AppendFile(_model);
+        _mySqlService.AppendFile(_model);
     }
 
     private static class Fields
